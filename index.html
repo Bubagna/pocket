@@ -64,7 +64,7 @@
 }
 
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;min-height:100%}
+html,body{margin:0;min-height:100%;overflow-x:hidden}
 html{background-color:#f2f0ea}
 @media (prefers-color-scheme:dark){html:not([data-theme="light"]){background-color:#171715}}
 html[data-theme="dark"]{background-color:#171715}
@@ -90,7 +90,11 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 #monthBody{display:flex;flex-direction:column;gap:22px}
 .view{display:none;flex:1;flex-direction:column;min-height:0;gap:22px;
   overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
-  padding-bottom:18px;scrollbar-width:none}
+  padding-bottom:18px;scrollbar-width:none;
+  /* the view spans the full width and carries the side gutter itself: the chip row
+     bleeds to the screen edge, and with a narrower view that bleed became a
+     sideways scroll. overflow-x stays hidden so nothing can ever pan it */
+  margin-inline:-16px;padding-inline:16px;overflow-x:hidden;touch-action:pan-y}
 .view::-webkit-scrollbar{display:none}
 .view.on{display:flex}
 /* in a scrolling column flex would squeeze the chip row to nothing */
@@ -332,7 +336,7 @@ input[type="date"].inp{-webkit-appearance:none;appearance:none;text-align:left}
 
 <script>
 'use strict';
-const BUILD = 2;
+const BUILD = 3;
 const KEY = 'pocket.v1';
 const CURS = ['CHF', 'EUR', 'USD'];
 const SYM = {CHF:'CHF', EUR:'€', USD:'$'};
@@ -658,8 +662,8 @@ function renderTrend(anim){
   const sd = data.find(d => d.m === S.trendSel);
   if (sd){
     const i = data.indexOf(sd), xc = (L + i * cw + cw / 2) / W * 100;
-    const tx = Math.min(80, Math.max(20, xc));
-    tip = `<div class="tip" style="left:${tx}%;top:${(y(sd.total) - 8) / H * 100}%"><b>${monthLabel(sd.m)} · ${money(sd.total, cur)}</b>
+    // the anchor slides along the tip with the column, so it never leaves the chart
+    tip = `<div class="tip" style="left:${xc}%;transform:translate(-${xc}%,-100%);top:${(y(sd.total) - 8) / H * 100}%"><b>${monthLabel(sd.m)} · ${money(sd.total, cur)}</b>
       ${sd.parts.filter(p => p.v > 0).map(p => `<div class="l"><i class="dot" style="background:${accColor(p.id)}"></i>${esc(accOf(p.id).name)} ${money(p.v, cur)}</div>`).join('')}</div>`;
   }
 
