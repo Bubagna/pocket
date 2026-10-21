@@ -87,11 +87,14 @@ input{font:inherit;color:inherit;-webkit-user-select:text;user-select:text}
   padding-bottom:calc(env(safe-area-inset-bottom) + 6px);
 }
 main{flex:1;display:flex;flex-direction:column;min-height:0}
-.view{display:none;flex:1;flex-direction:column;min-height:0;gap:14px;
+#monthBody{display:flex;flex-direction:column;gap:22px}
+.view{display:none;flex:1;flex-direction:column;min-height:0;gap:22px;
   overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
   padding-bottom:18px;scrollbar-width:none}
 .view::-webkit-scrollbar{display:none}
 .view.on{display:flex}
+/* in a scrolling column flex would squeeze the chip row to nothing */
+.view > *, #monthBody > *{flex-shrink:0}
 
 .entering{animation:arrive .26s cubic-bezier(.22,.9,.3,1)}
 @keyframes arrive{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
@@ -111,7 +114,7 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 .seg.wide button{flex:1;padding:9px 8px}
 
 /* ---------------- month switcher ---------------- */
-.monthnav{display:flex;align-items:center;justify-content:space-between}
+.monthnav{display:flex;align-items:center;justify-content:space-between;margin-top:4px}
 .monthnav button.arr{width:40px;height:40px;border-radius:999px;display:grid;place-items:center;
   background:var(--card);border:1px solid var(--line)}
 .monthnav button.arr:disabled{opacity:.35}
@@ -119,12 +122,12 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 .monthname{font-family:var(--fd);font-size:20px;font-weight:600;text-align:center}
 
 /* ---------------- cards ---------------- */
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;box-shadow:var(--shadow)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px;box-shadow:var(--shadow)}
 .label{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
 .hero .total{font-family:var(--fd);font-size:42px;font-weight:600;line-height:1.05;margin-top:4px;
   letter-spacing:-.02em;font-variant-numeric:tabular-nums;font-variation-settings:'SOFT' 60,'opsz' 90}
 .hero .total .sym{font-family:var(--fs);font-size:17px;font-weight:700;color:var(--ink-2);margin-right:6px;letter-spacing:0}
-.hero .sub{display:flex;flex-wrap:wrap;gap:4px 14px;margin-top:6px;font-size:13.5px;color:var(--ink-2)}
+.hero .sub{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:12px;font-size:13.5px;color:var(--ink-2)}
 .hero .sub b{color:var(--ink);font-weight:700;font-variant-numeric:tabular-nums}
 
 .chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:0 16px}
@@ -135,21 +138,21 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 .dot{width:9px;height:9px;border-radius:3px;flex:none}
 
 /* split of the month between accounts */
-.split{display:flex;height:12px;gap:2px;margin:14px 0 10px}
+.split{display:flex;height:12px;gap:2px;margin:22px 0 14px}
 .split i{display:block;height:100%;min-width:3px}
 .split i:first-child{border-radius:4px 0 0 4px}
 .split i:last-child{border-radius:0 4px 4px 0}
 .split i:only-child{border-radius:4px}
-.legend{display:flex;flex-direction:column;gap:6px}
+.legend{display:flex;flex-direction:column;gap:10px}
 .legend div{display:flex;align-items:center;gap:8px;font-size:14px}
 .legend span.n{flex:1;color:var(--ink-2)}
 .legend b{font-variant-numeric:tabular-nums}
 .legend em{font-style:normal;color:var(--ink-3);font-size:12.5px;width:38px;text-align:right;font-variant-numeric:tabular-nums}
 
 /* categories, ranked */
-.cats{display:flex;flex-direction:column;gap:2px;margin-top:8px}
-.catrow{display:grid;grid-template-columns:30px 1fr 104px;align-items:center;gap:4px 10px;
-  padding:7px 6px;margin:0 -6px;border-radius:10px;text-align:left;width:calc(100% + 12px)}
+.cats{display:flex;flex-direction:column;gap:6px;margin-top:14px}
+.catrow{display:grid;grid-template-columns:30px 1fr 104px;align-items:center;gap:6px 12px;
+  padding:9px 6px;margin:0 -6px;border-radius:10px;text-align:left;width:calc(100% + 12px)}
 .catrow.on{background:var(--accent-soft)}
 .catrow .em{font-size:19px;text-align:center;grid-row:span 2}
 .catrow .nm{font-size:14.5px;font-weight:600;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -160,17 +163,18 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
 
 /* expense list */
 .daygroup{display:flex;flex-direction:column}
-.dayhead{display:flex;justify-content:space-between;align-items:baseline;padding:10px 2px 6px;
+.daygroup + .daygroup{margin-top:10px}
+.dayhead{display:flex;justify-content:space-between;align-items:baseline;padding:4px 2px 9px;
   font-size:12.5px;font-weight:700;color:var(--ink-3);letter-spacing:.03em;text-transform:uppercase}
 .dayhead b{font-variant-numeric:tabular-nums;color:var(--ink-2)}
 .rows{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .row{display:grid;grid-template-columns:38px 1fr auto;gap:12px;align-items:center;width:100%;
-  padding:11px 14px;text-align:left}
+  padding:14px 16px;text-align:left}
 .row + .row{border-top:1px solid var(--line)}
 .row:active{background:var(--well)}
 .row .ic{width:38px;height:38px;border-radius:12px;background:var(--well);display:grid;place-items:center;font-size:19px}
 .row .t{font-weight:600;font-size:15px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.row .s{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-3);min-width:0}
+.row .s{display:flex;align-items:center;gap:6px;margin-top:2px;font-size:12.5px;color:var(--ink-3);min-width:0}
 .row .s span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .row .a{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
 .row .a small{display:block;font-size:12px;font-weight:500;color:var(--ink-3)}
@@ -328,7 +332,7 @@ input[type="date"].inp{-webkit-appearance:none;appearance:none;text-align:left}
 
 <script>
 'use strict';
-const BUILD = 1;
+const BUILD = 2;
 const KEY = 'pocket.v1';
 const CURS = ['CHF', 'EUR', 'USD'];
 const SYM = {CHF:'CHF', EUR:'€', USD:'$'};
@@ -838,14 +842,32 @@ function openSheet(id){
   paintForm();
   $('sheet').scrollTop = 0;
   $('backdrop').classList.add('on'); $('sheet').classList.add('on');
-  // iOS only raises the keyboard for a focus() made inside the tap itself
-  if (!it) $('fAmt').focus();
+  // iOS only raises the keyboard for a focus() made inside the tap itself.
+  // At this instant the sheet is still below the screen, and a plain focus()
+  // makes iOS pan the whole page down to reach it: the sheet then lands with
+  // its top cut off.
+  if (!it) $('fAmt').focus({preventScroll:true});
+  window.scrollTo(0, 0);
+  fitSheet();
 }
+// iOS keeps fixed elements on the layout viewport while the keyboard shrinks
+// and pans the visual one, so the sheet is pinned to what is actually visible.
+const VV = window.visualViewport;
+function fitSheet(){
+  const sh = $('sheet');
+  if (!VV || !sh.classList.contains('on')){ sh.style.bottom = ''; sh.style.maxHeight = ''; return }
+  const below = Math.max(0, window.innerHeight - VV.height - VV.offsetTop);
+  sh.style.bottom = below + 'px';
+  sh.style.maxHeight = Math.round(VV.height - 24) + 'px';
+}
+if (VV){ VV.addEventListener('resize', fitSheet); VV.addEventListener('scroll', fitSheet) }
 function lastDayOf(m){ return S.month < thisMonth() ? `${m}-${pad(daysIn(m))}` : `${m}-01` }
 function closeSheet(){
   document.activeElement && document.activeElement.blur();
   $('backdrop').classList.remove('on'); $('sheet').classList.remove('on');
   S.edit = null;
+  window.scrollTo(0, 0);
+  fitSheet();
 }
 function paintForm(){
   $('fCur').innerHTML = CURS.map(c => `<button data-c="${c}" class="${c === S.form.cur ? 'on' : ''}">${c}</button>`).join('');
