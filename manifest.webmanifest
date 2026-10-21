@@ -1,0 +1,17 @@
+{
+  "name": "Pocket",
+  "short_name": "Pocket",
+  "description": "Expense tracker: what you spent, from which account, by month and category, in CHF, EUR or USD.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f2f0ea",
+  "theme_color": "#f2f0ea",
+  "lang": "en",
+  "icons": [
+    {"src": "icons/icon-180.png", "sizes": "180x180", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png"},
+    {"src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"}
+  ]
+}
